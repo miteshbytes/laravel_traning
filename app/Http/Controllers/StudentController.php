@@ -95,9 +95,9 @@ class StudentController extends Controller
 
         $result = $user->save();
         // use Event & Listener
-        //SendMail::dispatch($user);
+        SendMail::dispatch($user);
         // Use Queue
-        SendMailQueue::dispatch($user)->delay(now());
+        //SendMailQueue::dispatch($user)->delay(now());
         if($result)
         {
             return redirect()->route('students.index')->with('success','Employee created successfully.');
