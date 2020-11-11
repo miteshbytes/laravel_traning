@@ -13,8 +13,13 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        // check session exists or not
+        if($request->session()->get('user_data'))
+        {
+            return redirect('/students')->with('message', "You are already logged In");
+        }
         return view('login.index');
     }
 

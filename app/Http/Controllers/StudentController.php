@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Role;
 use App\User;
 use App\Events\SendMail;
+use App\Jobs\SendMailQueue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -70,7 +71,10 @@ class StudentController extends Controller
         $user->image = $filename;
 
         $result = $user->save();
-        SendMail::dispatch($user);
+        // use Event & Listener
+        //SendMail::dispatch($user);
+        // Use Queue
+        SendMailQueue::dispatch($user)->delay(now());
         if($result)
         {
             return redirect()->route('students.index')->with('success','Employee created successfully.');
