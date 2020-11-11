@@ -11,10 +11,13 @@
 	<body>
 		<div class="container">
             @include('navbar')
-			<h3 class="text-center">Users Details</h3>
+            <h3 class="text-center">Users Details</h3>
+            {{-- Disable Add button logged user is Student --}}
+            @if(Session::get('user_data')['role_id'] != 6)
 			<div align="right">
 			 <a href="{{ route('students.create') }}" class="btn btn-success">Add New</a>
-			</div>
+            </div>
+            @endif
 			<br />
 			@if ($message = Session::get('success'))
 			<div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -52,15 +55,20 @@
 							<td>{{ $user->email }}</td>
                             <td>{{ $user->gender }}</td>
                             <td>{{ $user->role->role_name }}</td>
-							<td>{{ date("d-m-Y", strtotime($user->birth_date)) }}</td>
-						<td style="white-space: nowrap;"><a class="btn btn-info btn-sm" href="{{route('students.edit',$user->id)}}">Edit</a> | <a class="btn btn-danger btn-sm" href="javascript:;" onclick="confirmDelete('{{$user->id}}')">Delete</a>
-						<form id="delete-user-{{$user->id}}" action="{{ route('students.destroy', $user->id) }}" method="POST" style="display: none;">
+                            <td>{{ date("d-m-Y", strtotime($user->birth_date)) }}</td>
 
-							@method('DELETE')
-							@csrf
-						</form>
-					</td>
-				</tr>
+                            @if(Session::get('user_data')['role_id'] != 6)
+						    <td style="white-space: nowrap;"><a class="btn btn-info btn-sm" href="{{route('students.edit',$user->id)}}">Edit</a> | <a class="btn btn-danger btn-sm" href="javascript:;" onclick="confirmDelete('{{$user->id}}')">Delete</a>
+						        <form id="delete-user-{{$user->id}}" action="{{ route('students.destroy', $user->id) }}" method="POST" style="display: none;">
+
+							    @method('DELETE')
+							    @csrf
+						        </form>
+                                </td>
+                            @else
+                            <td>-</td>
+                            @endif
+				        </tr>
 				@endforeach
 			</tbody>
 		</table>

@@ -17,9 +17,24 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
+        // check is Teacher
+        if($request->session()->get('user_data')['role_id'] == 2)
+        {
+            $users = User::where('id', '!=', '1')->get();
+        }
+        // check is Admin
+        else if($request->session()->get('user_data')['role_id'] == 1)
+        {
+            $users = User::all();
+        }
+        // check is Student
+        else
+        {
+            $users = User::where('id', '=', $request->session()->get('user_data')['id'])->get();
+        }
+
         return view('student.index', compact('users'));
     }
 
@@ -28,9 +43,17 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $roles = Role::all();
+        // if logged user teacher who can create only student
+        if($request->session()->get('user_data')['role_id'] == 2)
+        {
+            $roles = Role::where('id', '=', 6)->get();
+        }
+        else
+        {
+            $roles = Role::all();
+        }
         return view('student.create', compact('roles'));
     }
 
@@ -98,10 +121,18 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $user = User::find($id);
-        $roles = Role::all();
+        // if logged user teacher who can edit only teacher/student
+        if($request->session()->get('user_data')['role_id'] == 2)
+        {
+            $roles = Role::where('id', '!=', 1)->get();
+        }
+        else
+        {
+            $roles = Role::all();
+        }
 
         return view('student.create', compact(['user', 'roles']));
     }
