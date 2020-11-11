@@ -1,0 +1,26 @@
+1. New laravel 7 Project create
+-> composer create-project --prefer-dist laravel/laravel blog "7.*"
+
+2. Install laravel ui
+-> composer require laravel/ui:^2.4
+-> php artisan ui:auth
+-> npm install
+
+3. Storage Folder Link
+-> php artisan storage:link
+
+4. Mail create with markdown (send email with view template)
+-> php artisan make:mail SendLoginDetails --markdown=emails.SendLoginDetails
+
+5. Create Job (queue) table step
+   -> QUEUE_CONNECTION=database
+   -> php artisan queue:table
+   -> php artisan queue:failed-table
+
+   -> php artisan make:job SendMailQueue
+   -> php artisan queue:work  (For Queue Run)
+
+
+6. For Clear
+-> php artisan config:clear
+-> php artisan cache:clear
