@@ -32,6 +32,8 @@ Route::group(['middleware' => ['isAuth']], function () {
         return redirect()->route('login.index')->with('success', 'Logout sucessfully.');
     });
 
+    Route::get('users/search', 'UserController@search')->name('user.search');
+    Route::post('users/search', 'UserController@search')->name('user.search');
     Route::get('users', ['uses'=>'UserController@index', 'as'=>'users.index']);
 
 });
