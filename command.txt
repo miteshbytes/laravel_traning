@@ -24,3 +24,9 @@
 6. For Clear
 -> php artisan config:clear
 -> php artisan cache:clear
+
+7. php artisan make:middleware IsAuthenticateMiddleware
+
+   php artisan make:listener SendMailAdminFired --event="SendMail"
+
+   php artisan make:mail SendToAdminLoginDetails --markdown=emails.SendToAdminLoginDetails

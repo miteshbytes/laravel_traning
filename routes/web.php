@@ -24,12 +24,16 @@ Route::group(['middleware' => ['isAuth']], function () {
 
     Route::resource('/roles', "RoleController")->middleware('admin');
 
+    Route::post('student/search', 'StudentController@search')->name('student.search');
     Route::resource('/students', "StudentController");
 
     Route::get('/logout', function (Request $request) {
         $request->session()->forget('user_data');
         return redirect()->route('login.index')->with('success', 'Logout sucessfully.');
     });
+
+    Route::get('users', ['uses'=>'UserController@index', 'as'=>'users.index']);
+
 });
 
 

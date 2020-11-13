@@ -112,5 +112,16 @@
 	orientation: "bottom auto",
 	endDate: '+0d',
 	});
+
+    $(document).ready(function(){
+        // set blank value in datepicker when create method
+        var route =  '<?php echo Route::currentRouteName(); ?>';
+        if(route == 'students.create')
+        {
+            $('.date').val('');
+            $(".date").datepicker("setDate", new Date());
+        }
+    });
+
 	</script>
 </html>
